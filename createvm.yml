@@ -1,0 +1,29 @@
+---
+- name: Create multiple VMs from CSV data
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Read VM data from CSV
+      read_csv:
+        path: /path/to/vms.csv
+        delimiter: ','
+      register: csv_data
+
+    - name: Create VMs
+      vmware_guest:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: no
+        folder: /path/to/vm/folder
+        template: your_vm_template_name
+        datacenter: your_datacenter_name
+        name: "{{ item.vm_name }}"
+        networks:
+          - name: network_name
+            ip: "{{ item.ip_address }}"
+            gateway: "{{ item.gateway }}"
+            netmask: "255.255.255.0" # Adjust as needed
+            dns_servers: 
+              - "{{ item.dns_server }}"
+      loop: "{{ csv_data.list }}"
