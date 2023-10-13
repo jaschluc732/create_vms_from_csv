@@ -11,7 +11,7 @@
 
     - name: Create VMs
       vmware_guest:
-        hostname: "{{ vca70.eveng.dev }}"
+        hostname: "{{ 192.168.1.11 }}"
         username: "{{ administrator@vsphere.local }}"
         password: "{{ VMware!2345 }}"
         validate_certs: no
