@@ -5,22 +5,22 @@
   tasks:
     - name: Read VM data from CSV
       read_csv:
-        path: /path/to/vms.csv
+        path: /home/ubuntu/ansible/create_vms_from_csv/vms.csv
         delimiter: ','
       register: csv_data
 
     - name: Create VMs
       vmware_guest:
-        hostname: "{{ vcenter_hostname }}"
-        username: "{{ vcenter_username }}"
-        password: "{{ vcenter_password }}"
+        hostname: "{{ vca70.eveng.dev }}"
+        username: "{{ administrator@vsphere.local }}"
+        password: "{{ VMware!2345 }}"
         validate_certs: no
-        folder: /path/to/vm/folder
-        template: your_vm_template_name
-        datacenter: your_datacenter_name
+        folder: Templates
+        template: Ubuntu-2204-Template-100GB-Thin
+        datacenter: NSX
         name: "{{ item.vm_name }}"
         networks:
-          - name: network_name
+          - name: prod-vds-mgt
             ip: "{{ item.ip_address }}"
             gateway: "{{ item.gateway }}"
             netmask: "255.255.255.0" # Adjust as needed
